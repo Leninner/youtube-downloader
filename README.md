@@ -11,7 +11,7 @@ npm run info "url del video"
 Para descargar el vídeo, podemos usar el siguiente comando:
 
 ```bash
-npm run download "url del video" "path\\al\\destino" "nombre del archivo"
+npm run download "url del video" "nombre del archivo"
 ```
 
 ## Acknowledgements
