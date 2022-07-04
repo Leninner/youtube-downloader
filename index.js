@@ -1,28 +1,61 @@
 const fs = require('fs');
 const ytdl = require('ytdl-core');
+
 // TypeScript: import ytdl from 'ytdl-core'; with --esModuleInterop
 // TypeScript: import * as ytdl from 'ytdl-core'; with --allowSyntheticDefaultImports
 // TypeScript: import ytdl = require('ytdl-core'); with neither of the above
 
-const getYoutubeUrlInfo = async () => {
-  const videoInfo = await ytdl.getInfo(
-    'https://www.youtube.com/watch?v=Wv2rLZmbPMA&ab_channel=EdSheeran',
-    (err, info) => {
-      if (err) {
-        return err;
-      }
+const options = process.argv;
 
-      return info;
-    }
-  );
-
-  return videoInfo;
+const optionsDownload = {
+  url: options[3],
+  fileName: options[4],
 };
 
-console.log(getYoutubeUrlInfo().then((info) => console.log(info)));
+const optionsInfo = {
+  url: options[3],
+};
 
-ytdl('https://www.youtube.com/watch?v=Wv2rLZmbPMA&ab_channel=EdSheeran', {
-  filter: 'audioonly',
-  quality: 'highestaudio',
-  format: 'mp3',
-}).pipe(fs.createWriteStream('D:\\my_universe.mp3'));
+switch (options[2]) {
+  case '--download':
+    downloadVideo(optionsDownload);
+    break;
+
+  case '--info':
+    getVideoInfo(optionsInfo);
+    break;
+
+  default:
+    console.log('Invalid option');
+    break;
+}
+
+async function downloadVideo({ url, fileName }) {
+  try {
+    ytdl(url, {
+      filter: 'audioonly',
+      quality: 'highestaudio',
+      format: 'mp3',
+    }).pipe(fs.createWriteStream(`D:\\${fileName}`));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getVideoInfo({ url }) {
+  try {
+    ytdl
+      .getInfo(url, (err, info) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(info);
+        }
+      })
+      .then((info) => {
+        console.log(info);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+}
