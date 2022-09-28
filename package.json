@@ -4,14 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "info": "node index.js --info",
-    "download": "node index.js --download" 
+    "download": "node index.js --download"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ytdl-core": "^4.11.0"
+    "ytdl-core": "^4.11.2"
   }
 }
